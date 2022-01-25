@@ -9,13 +9,10 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 public class MemberForm {
 
-    @NotEmpty
     private String nickname;
 
-    @NotEmpty
     private String password;
 
-    @NotEmpty
     private String mail;
 
     private String country;

@@ -1,56 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-    <title>Eun</title>
 </head>
 <body>
 
 <div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
     <form role="form" th:action th:object="${memberForm}" method="post">
         <div class="form-group py-3">
-            <label th:for="nickname">이름</label>
-            <input type="text" th:field="*{nickname}" class="form-control" placeholder="사용할 닉네임을 입력하세요."
+            <label for="nickname">닉네임 <span>*</span></label>
+            <input type="text" id="nickname" th:field="*{nickname}" class="form-control" placeholder="사용할 닉네임을 입력하세요."
                    th:errorclass="field-error">
-            <div class="field-error" th:errors="*{nickname}"/>
-        </div>
-
-        <div class="form-group py-3">
-            <label th:for="mail">e-mail</label>
-            <input type="text" th:field="*{mail}" class="form-control" placeholder="사용할 e-mail을 입력하세요."
-                   th:errorclass="field-error">
-            <div class="field-error" th:errors="*{mail}"/>
-        </div>
-
-        <div class="form-group py-3">
-            <label th:for="password">비밀번호</label>
-            <input type="text" th:field="*{password}" class="form-control" placeholder="사용할 비밀번호를 입력하세요."
-                   th:errorlass="field-error">
-            <div class="field-error" th:errors="*{password}"/>
-        </div>
-
-        <div class="form-group py-3">
-            주소
-            <div class="rounded" style="border: 2px solid black;">
-                <label th:for="country">국가</label>
-                <input type="text" th:field="*{country}" class="form-control"
-                       style="max-width: 1200px" placeholder="국가명">
-                <label th:for="city">도시</label>
-                <input type="text" th:field="*{city}" class="form-control"
-                       style="max-width: 1200px" placeholder="도시명">
-                <label th:for="street">도로명</label>
-                <input type="text" th:field="*{street}" class="form-control"
-                       style="max-width: 1200px" placeholder="도로명">
-                <label th:for="zipcode">상세 주소</label>
-                <input type="text" th:field="*{zipcode}" class="form-control"
-                       style="max-width: 1200px" placeholder="상세 주소">
+            <div class="field-error" th:errors="*{nickname}">
+                닉네임 오류
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-4 offset-md-3">
-                <button type="submit" class="btn btn-primary btn-lg">가입</button>
-                <button class="btn btn-secondary btn-lg">취소</button>
+        <div class="form-group py-3">
+            <label for="mail">e-mail <span>*</span></label>
+            <input type="text" id="mail" th:field="*{mail}" class="form-control" placeholder="사용할 e-mail을 입력하세요."
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{mail}">
+                메일 오류
+            </div>
+        </div>
+
+        <div class="form-group py-3">
+            <label for="password">비밀번호 <span>*</span></label>
+            <input type="text" id="password" th:field="*{password}" class="form-control" placeholder="사용할 비밀번호를 입력하세요."
+                   th:errorlass="field-error">
+            <div class="field-error" th:errors="*{password}">
+                비밀번호 오류
+            </div>
+        </div>
+
+        <div class="py-3">
+            주소
+            <div class="form-group py-3">
+                <input type="text" th:field="*{country}" class="form-control my-2" placeholder="국가명">
+                <input type="text" th:field="*{city}" class="form-control my-2" placeholder="도시명">
+                <input type="text" th:field="*{street}" class="form-control my-2" placeholder="도로명">
+                <input type="text" th:field="*{zipcode}" class="form-control my-2" placeholder="상세 주소">
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <button type="submit" class="w-100 btn btn-primary btn-lg">제출</button>
+            </div>
+            <div class="col-3">
+                <a th:href="@{/}" class="w-100 btn btn-secondary btn-lg">취소</a>
             </div>
         </div>
     </form>

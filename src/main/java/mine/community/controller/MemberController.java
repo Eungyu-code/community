@@ -1,26 +1,34 @@
 package mine.community.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import mine.community.domain.Address;
+import mine.community.domain.Member;
+import mine.community.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.persistence.EntityManager;
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @RequestMapping("/members")
 public class MemberController {
 
     private final EntityManager em;
+    private final MemberService memberService;
 
 
     @GetMapping("/add")
@@ -32,7 +40,40 @@ public class MemberController {
 
     @PostMapping("/add")
     public String joinMember(@Validated @ModelAttribute("memberForm") MemberForm memberForm,
-                             BindingResult bindingResult, HttpServletRequest request) {
+                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+
+        if (!StringUtils.hasText(memberForm.getNickname())) {
+            bindingResult.rejectValue("nickname", "required", null, null);
+        }
+
+        if (!StringUtils.hasText(memberForm.getMail())) {
+            bindingResult.rejectValue("mail", "required", null, null);
+        }
+
+        if (!StringUtils.hasText(memberForm.getPassword())) {
+            bindingResult.rejectValue("password", "required", null, null);
+        }
+
+
+        if (memberService.duplicateMail(memberForm.getNickname()).isEmpty()) {
+            bindingResult.rejectValue("nickname", "duplicate", null, null);
+        }
+
+        if (memberService.duplicateMail(memberForm.getMail()).isEmpty()) {
+            bindingResult.rejectValue("mail", "duplicate", null, null);
+        }
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "members/addMemberForm";
+        }
+
+        Member member = new Member();
+        Address address = new Address(memberForm.getCountry(), memberForm.getCity(), memberForm.getStreet(), memberForm.getZipcode());
+        member.create(memberForm.getMail(), memberForm.getNickname(), memberForm.getPassword(), address);
+        memberService.join(member);
 
         return "redirect:/";
     }
