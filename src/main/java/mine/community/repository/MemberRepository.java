@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,16 +33,32 @@ public class MemberRepository {
                 .getSingleResult();
     }
 
-    public Optional<Member> findByMail(String mail) {
-        return findAll().stream()
-                .filter(m -> m.getMail().equals(mail))
-                .findFirst();
+    public Member findByMail(String mail) {
+
+        Member member;
+
+        try {
+            member = em.createQuery("select m from Member m where m.mail = :mail", Member.class)
+                    .setParameter("mail", mail).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+
+        return member;
     }
 
-    public Optional<Member> findByName(String nickname) {
+    public Member findByName(String nickname) {
 
-        return findAll().stream()
-                .filter(m -> m.getNickname().equals(nickname))
-                .findFirst();
+        Member member;
+
+        try {
+            member = em.createQuery("select m from Member m where m.nickname = :nickname", Member.class)
+                    .setParameter("nickname", nickname).getSingleResult();
+        } catch (NoResultException e) {
+
+            return null;
+        }
+
+        return member;
     }
 }

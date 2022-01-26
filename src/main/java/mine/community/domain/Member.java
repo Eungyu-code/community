@@ -5,6 +5,7 @@ import lombok.Getter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
 @Getter
@@ -28,12 +29,13 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Post> postList = new ArrayList<>();
 
+
     public void create(String mail, String nickname, String password, Address address) {
 
         this.mail = mail;
         this.nickname = nickname;
         this.password = password;
-        this.address = new Address(address.getCountry(), address.getCity(), address.getStreet(), address.getZipcode());
+        this.address = address;
     }
 
 }

@@ -32,9 +32,7 @@ public class MemberController {
 
 
     @GetMapping("/add")
-    public String memberForm(Model model) {
-
-        model.addAttribute("memberForm", new MemberForm());
+    public String memberForm(@ModelAttribute("memberForm") MemberForm memberForm) {
         return "members/addMemberForm";
     }
 
@@ -56,11 +54,11 @@ public class MemberController {
         }
 
 
-        if (memberService.duplicateMail(memberForm.getNickname()).isEmpty()) {
+        if (memberService.duplicateName(memberForm.getNickname()) != null) {
             bindingResult.rejectValue("nickname", "duplicate", null, null);
         }
 
-        if (memberService.duplicateMail(memberForm.getMail()).isEmpty()) {
+        if (memberService.duplicateMail(memberForm.getMail()) != null) {
             bindingResult.rejectValue("mail", "duplicate", null, null);
         }
 

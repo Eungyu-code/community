@@ -35,7 +35,7 @@ class MemberServiceTest {
     }
 
     @Test
-    void 회원가입() {
+    void join() {
 
         //given
         Member member = new Member();
@@ -58,7 +58,14 @@ class MemberServiceTest {
     }
 
     @Test
-    void 메일중복() {
+    void noResultException() {
+
+        assertThat(memberRepository.findByMail("123")).isEqualTo(null);
+        assertThat(memberRepository.findByName("nameA")).isEqualTo(null);
+    }
+
+    @Test
+    void mail_duplication() {
 
         //given
         Member memberA = new Member();
@@ -70,17 +77,18 @@ class MemberServiceTest {
         Address address = new Address("Korea", "Incheon", "Yongdusan-ro13th", "22724");
 
         //when
-        memberA.create(mail, nickname, password, address);
+        memberA.create(mail, nickname, password, null);
         memberB.create(mail, nickname, password, address);
         memberService.join(memberA);
 
         //then
-
+        assertThat(memberA).isEqualTo(memberService.duplicateMail(memberA.getMail()));
+        System.out.println("memberService.duplicateMail(memberA.getMail()) = " + memberService.duplicateMail(memberA.getMail()));
 
     }
 
     @Test
-    void 닉네임중복() {
+    void nickname_duplication() {
 
     }
 

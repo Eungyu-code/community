@@ -2,19 +2,18 @@ package mine.community.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mine.community.service.MemberService;
+import mine.community.domain.Member;
+import mine.community.service.LoginService;
+import mine.community.session.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @Slf4j
@@ -23,21 +22,32 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/members")
 public class LoginController {
 
-    private final EntityManager em;
-    private final MemberService memberService;
+    private final LoginService loginService;
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
-
-        model.addAttribute("loginForm", new LoginForm());
+    public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm) {
 
         return "members/loginForm";
     }
 
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute("loginform") LoginForm loginForm, BindingResult bindingResult,
+    public String login(@Validated @ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult,
+                        @RequestParam(defaultValue = "/") String redirectURL,
                         HttpServletRequest request) {
 
+        if (!StringUtils.hasText(loginForm.getMail())) {
+            bindingResult.rejectValue("mail", "required", null, null);
+        }
+
+        if (!StringUtils.hasText(loginForm.getPassword())) {
+            bindingResult.rejectValue("password", "required", null, null);
+        }
+
+        Member loginMember = loginService.login(loginForm.getMail(), loginForm.getPassword());
+
+        if (loginMember == null) {
+            bindingResult.reject("wrong", null, null);
+        }
 
 
         if (bindingResult.hasErrors()) {
@@ -45,6 +55,21 @@ public class LoginController {
             return "members/loginForm";
         }
 
+
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
+        return "redirect:" + redirectURL;
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
         return "redirect:/";
     }
+
 }

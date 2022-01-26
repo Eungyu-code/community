@@ -6,6 +6,7 @@ import mine.community.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import java.util.Optional;
 
 @Service
@@ -21,16 +22,14 @@ public class MemberService {
         memberRepository.join(member);
     }
 
-    public Optional<Member> duplicateMail(String mail) {
+    public Member duplicateMail(String mail) {
 
         return memberRepository.findByMail(mail);
     }
 
-    public Optional<Member> duplicateNickName(String nickname) {
+    public Member duplicateName(String nickname) {
 
         return memberRepository.findByName(nickname);
     }
-
-
 
 }

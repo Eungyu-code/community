@@ -5,15 +5,23 @@ import mine.community.domain.Member;
 import mine.community.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class LoginService {
 
     private final MemberRepository memberRepository;
 
-    private Member login(String mail, String password) {
+    public Member login(String mail, String password) {
 
-        return memberRepository.findByMail(mail).filter(m -> m.getPassword().equals(password))
-                .orElse(null);
+        Member loginMember = memberRepository.findByMail(mail);
+
+        if (loginMember == null || password.equals(loginMember.getPassword())) {
+            return null;
+        }
+
+        return loginMember;
     }
+
 }
