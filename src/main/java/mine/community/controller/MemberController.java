@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.persistence.EntityManager;
 
 @Controller
 @Slf4j
@@ -27,7 +26,6 @@ import javax.persistence.EntityManager;
 @RequestMapping("/members")
 public class MemberController {
 
-    private final EntityManager em;
     private final MemberService memberService;
 
 

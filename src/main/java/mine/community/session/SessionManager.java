@@ -17,45 +17,44 @@ public class SessionManager {
 
     private Map<String, Object> sessionStore = new ConcurrentHashMap<>();
 
-    // 세선 생성
     public void createSession(Object value, HttpServletResponse response) {
 
         String sessionId = UUID.randomUUID().toString();
+
         sessionStore.put(sessionId, value);
 
         Cookie cookie = new Cookie(SESSION_COOKIE_NAME, sessionId);
+
         response.addCookie(cookie);
     }
 
-    // 세션 조회
     public Object getSession(HttpServletRequest request) {
 
-        Cookie cookie = findCookie(request, SESSION_COOKIE_NAME);
-
-        if (cookie == null) {
+        Cookie sessionCookie = findCookie(request, SESSION_COOKIE_NAME);
+        if (sessionCookie == null) {
             return null;
         }
 
-        return sessionStore.get(cookie.getValue());
+        return sessionStore.get(sessionCookie.getValue());
     }
 
-    // 세션 만료
     public void expire(HttpServletRequest request) {
-
         Cookie cookie = findCookie(request, SESSION_COOKIE_NAME);
-
         if (cookie != null) {
+
             sessionStore.remove(cookie.getValue());
         }
     }
 
-    public Cookie findCookie(HttpServletRequest request, String cookieName) {
+    private Cookie findCookie(HttpServletRequest request, String cookieName) {
 
-        if (request.getCookies() == null) {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies == null) {
             return null;
         }
 
-        return Arrays.stream(request.getCookies())
+        return Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals(cookieName))
                 .findAny()
                 .orElse(null);

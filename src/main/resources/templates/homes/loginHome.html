@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+    .myform {
+        border: 2px solid #0275d8;
+        border-radius: 10px;
+    }
+</style>
 <body>
-로그인
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="ps-2 pe-1 col-1 myform">
+        <div>
+            <h5 class="pt-2 ps-3 fw-bolder" th:text="${member.nickname}">
+                사용자 명
+            </h5>
+            <div class="row justify-content-start pe-2">
+                <form class="py-2" th:action="@{/myinfo}" method="post">
+                    <button class="w-100 btn btn-outline-primary" th:onclick="|location.href='@{/members/info}'|" type="submit">
+                        내 정보
+                    </button>
+                </form>
+                <form class="pt-2 pb-3" th:action="@{/logout}" method="post">
+                    <button class="w-100 btn btn-outline-secondary" onclick="location.href='home.html'" type="submit">
+                        로그아웃
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

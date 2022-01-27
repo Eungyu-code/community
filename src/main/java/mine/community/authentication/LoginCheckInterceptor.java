@@ -12,17 +12,20 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "");
+
         String requestURI = request.getRequestURI();
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
 
         if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
-
-            // 미인증 사용자 요청
 
             response.sendRedirect("/login?redirectURL=" + requestURI);
             return false;
         }
+
 
         return true;
     }

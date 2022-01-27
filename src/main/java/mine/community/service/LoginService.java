@@ -17,7 +17,7 @@ public class LoginService {
 
         Member loginMember = memberRepository.findByMail(mail);
 
-        if (loginMember == null || password.equals(loginMember.getPassword())) {
+        if (loginMember == null || !password.equals(loginMember.getPassword())) {
             return null;
         }
 

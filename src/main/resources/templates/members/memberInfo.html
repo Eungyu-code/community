@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <div class="text-white">
+        <div class="row justify-content-center align-items-center">
+            <h1 class="text-center justify-content-center align-items-center text-primary fw-bolder">내 정보</h1>
+            <div class="login col-md-6">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-md-12" th:object="${member}">
+                        닉네임 : <span th:text="*{nickname}"></span>
+                        이메일 : <span th:text="*{mail}"></span>
+                        비밀번호 : <span th:text="${member.password}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

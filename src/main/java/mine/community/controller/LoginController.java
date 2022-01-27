@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Transactional
 @RequiredArgsConstructor
-@RequestMapping("/members")
 public class LoginController {
 
     private final LoginService loginService;
@@ -42,19 +41,19 @@ public class LoginController {
         if (!StringUtils.hasText(loginForm.getPassword())) {
             bindingResult.rejectValue("password", "required", null, null);
         }
-
+        
         Member loginMember = loginService.login(loginForm.getMail(), loginForm.getPassword());
 
         if (loginMember == null) {
             bindingResult.reject("wrong", null, null);
         }
 
-
         if (bindingResult.hasErrors()) {
-            log.info("ERRORS = {}", bindingResult);
+
             return "members/loginForm";
         }
 
+        log.info("loginMember in loginController = {}", loginMember);
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
@@ -64,7 +63,9 @@ public class LoginController {
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request) {
+
         HttpSession session = request.getSession(false);
+
         if (session != null) {
             session.invalidate();
         }

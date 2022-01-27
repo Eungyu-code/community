@@ -48,6 +48,7 @@ class LoginServiceTest {
         memberRepository.join(member);
 
         Member findMember = memberRepository.findByMail(mail);
+        System.out.println("findMember = " + findMember);
 
         //then
         assertThat(loginService.login(mail, password)).isEqualTo(findMember);
