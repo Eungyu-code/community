@@ -1,5 +1,6 @@
 package mine.community.authentication;
 
+import lombok.extern.slf4j.Slf4j;
 import mine.community.session.SessionConst;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@Slf4j
 public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
@@ -17,6 +19,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         response.setHeader("Expires", "");
 
         String requestURI = request.getRequestURI();
+
+        log.info("인증 체크 인터셉터 실행 {}", requestURI);
 
         HttpSession session = request.getSession();
 

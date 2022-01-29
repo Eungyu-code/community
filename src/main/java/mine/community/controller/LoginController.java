@@ -68,6 +68,7 @@ public class LoginController {
 
         if (session != null) {
             session.invalidate();
+            log.info("session = {}", session);
         }
 
         return "redirect:/";
