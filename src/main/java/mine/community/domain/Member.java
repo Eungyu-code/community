@@ -1,6 +1,7 @@
 package mine.community.domain;
 
 import lombok.Getter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,8 +34,15 @@ public class Member {
 
         this.mail = mail;
         this.nickname = nickname;
-        this.password = password;
+        this.password = enCodePW(password);
         this.address = address;
+    }
+
+    public String enCodePW(String password) {
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        return passwordEncoder.encode(password);
     }
 
 }

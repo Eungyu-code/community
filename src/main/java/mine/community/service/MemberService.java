@@ -3,6 +3,7 @@ package mine.community.service;
 import lombok.RequiredArgsConstructor;
 import mine.community.domain.Member;
 import mine.community.repository.MemberRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,17 +20,18 @@ public class MemberService {
 
     public void join(Member member) {
 
-        memberRepository.join(member);
+
+        memberRepository.save(member);
     }
 
     public Member duplicateMail(String mail) {
 
-        return memberRepository.findByMail(mail);
+        return memberRepository.findByMail(mail).orElse(null);
     }
 
     public Member duplicateName(String nickname) {
 
-        return memberRepository.findByName(nickname);
+        return memberRepository.findByNickname(nickname).orElse(null);
     }
 
 }

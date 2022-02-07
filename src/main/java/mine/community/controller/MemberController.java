@@ -52,12 +52,14 @@ public class MemberController {
         }
 
 
-        if (memberService.duplicateName(memberForm.getNickname()) != null) {
-            bindingResult.rejectValue("nickname", "duplicate", null, null);
+        if (memberService.duplicateMail(memberForm.getMail()) != null) {
+
+            bindingResult.rejectValue("mail", "duplicate", null, null);
         }
 
-        if (memberService.duplicateMail(memberForm.getMail()) != null) {
-            bindingResult.rejectValue("mail", "duplicate", null, null);
+        if (memberService.duplicateName(memberForm.getNickname()) != null) {
+
+            bindingResult.rejectValue("nickname", "duplicate", null, null);
         }
 
 

@@ -46,8 +46,6 @@
                                     <a class="addform" th:href="@{/members/add}">회원가입</a>
                                 </div>
                             </div>
-                            <div th:if="${#fields.hasGlobalErrors()}">
-                                <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-3 py-5">

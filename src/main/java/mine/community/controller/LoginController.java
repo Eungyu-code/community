@@ -18,14 +18,18 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/members/login")
-    public String loginForm() {
+    public String loginForm(Model model) {
+
+        model.addAttribute("loginForm", new LoginForm());
 
         return "members/loginForm";
     }
 
     @GetMapping("/members/login/error")
-    public String loginerrors(Model model) {
+    public String login_errors(Model model) {
 
         model.addAttribute("loginError", true);
+
+        return "members/loginForm";
     }
 }

@@ -34,29 +34,5 @@ class LoginServiceTest {
         em.clear();
     }
 
-    @Test
-    void login() {
 
-        //given
-        Member member = new Member();
-        String nickname = "이은규";
-        String mail = "agyu";
-        String password = "1234";
-
-        //when
-        member.create(mail, nickname, password, null);
-        memberRepository.join(member);
-
-        Member findMember = memberRepository.findByMail(mail);
-        System.out.println("findMember = " + findMember);
-
-        //then
-        assertThat(loginService.login(mail, password)).isEqualTo(findMember);
-    }
-
-    @Test
-    void noResultException() {
-
-        assertThat(loginService.login("mail", "password")).isEqualTo(null);
-    }
 }
