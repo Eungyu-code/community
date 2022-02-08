@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/header :: header"/>
+<style>
+    .myform {
+        border: 2px solid #0275d8;
+        border-radius: 10px;
+    }
+</style>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div class="ps-2 pe-1 col-1 myform">
+        <div sec:authorize="isAuthenticated()">
+            <h5 class="pt-2 ps-3 fw-bolder" sec:authentication="principal.nickname">
+                사용자 명
+            </h5>
+            <div class="row justify-content-start pe-2">
+                <div class="py-2">
+                    <button class="w-100 btn btn-outline-primary" th:href="@{/members/info}">내 정보</button>
+                </div>
+                <div class="pt-2 pb-3">
+                    <button class="w-100 btn btn-outline-secondary" th:href="@{/members/logout}">로그아웃</button>
+                </div>
+            </div>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <h5 class="pt-2 ps-3 fw-bolder">환영합니다!</h5>
+            <div class="row justify-content-start pe-2">
+                <div class="py-2">
+                    <button class="w-100 btn btn-outline-primary" th:href="@{/members/login}">로그인</button>
+                </div>
+                <div class="pt-2 pb-3">
+                    <button class="w-100 btn btn-outline-secondary" th:href="@{/members/add}">회원가입</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

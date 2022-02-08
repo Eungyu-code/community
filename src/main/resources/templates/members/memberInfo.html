@@ -2,18 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/header :: header"/>
+<style>
+    .infoForm {
+        margin-top: 10px;
+        height: 400px;
+        border: 3px solid #0275d8;
+        border-radius: 25px;
+    }
+</style>
 <body>
 
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
     <div>
-        <div class="row justify-content-center align-items-center">
-            <h1 class="text-center justify-content-center align-items-center text-primary fw-bolder">내 정보</h1>
-            <div class="login col-md-6">
-                <div class="row justify-content-center align-items-center">
+        <div class="row justify-content-center align-item-center">
+            <h1 class="tex-center justify-content-center align-item-center text-primary fw-bolder">내 정보</h1>
+            <div class="infoForm col-md-6">
+                <div class="row justify-content-center align-item-center">
                     <div class="col-md-12">
-                        <div sec:authentication="principal"></div>
+                        <div class="py-5">닉네임 : <span sec:authentication="principal.nickname"></span> </div>
+                        <div class="py-2">이메일 : <span sec:authentication="principal.mail"></span> </div>
+                        <div class="py-2">
+                            <span>주소</span>
+                            <div class="py-1">국가 : <span sec:authentication="principal.country"></span> </div>
+                            <div class="py-1">도시 : <span sec:authentication="principal.city"></span> </div>
+                            <div class="py-1">도로명 : <span sec:authentication="principal.street"></span> </div>
+                            <div class="py-1">우편번호 : <span sec:authentication="principal.zipcode"></span> </div>
+                        </div>
                     </div>
                 </div>
             </div>
