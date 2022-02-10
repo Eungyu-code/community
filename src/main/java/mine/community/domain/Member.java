@@ -27,7 +27,7 @@ public class Member {
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Post> postList = new ArrayList<>();
+    private List<Board> postList = new ArrayList<>();
 
 
     public void create(String mail, String nickname, String password, Address address) {

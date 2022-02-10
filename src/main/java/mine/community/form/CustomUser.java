@@ -1,4 +1,4 @@
-package mine.community.controller;
+package mine.community.form;
 
 import mine.community.domain.Address;
 import org.springframework.security.core.GrantedAuthority;

@@ -8,7 +8,7 @@
         border: 3px solid #0275d8;
         border-radius: 25px;
     }
-    .addform {
+    .addForm {
         text-decoration: none;
         color: grey;
     }
@@ -27,7 +27,7 @@
                         <form role="form" th:action th:object="${loginForm}" method="post">
                             <div class="form-group py-3">
                                 <label th:for="mail">이메일</label>
-                                <input type="text" th:field="*{mail}" class="form-control" placeholder="e-mail"
+                                <input type="email" th:field="*{mail}" class="form-control" placeholder="e-mail"
                                        th:errorclass="field-error">
                                 <div class="field-error" th:errors="*{mail}">
                                     이메일 오류
@@ -43,7 +43,7 @@
                             </div>
                             <div class="row justify-content-end">
                                 <div class="col offset-10">
-                                    <a class="addform" th:href="@{/members/add}">회원가입</a>
+                                    <a class="addForm" th:href="@{/members/add}">회원가입</a>
                                 </div>
                             </div>
                             </div>

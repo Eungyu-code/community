@@ -3,38 +3,71 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/header :: header"/>
 <style>
-    .myform {
+    .myForm {
         border: 2px solid #0275d8;
         border-radius: 10px;
+    }
+    .writeForm {
+        text-decoration: none;
+        color: grey;
     }
 </style>
 <body>
 
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <div class="ps-2 pe-1 col-1 myform">
-        <div sec:authorize="isAuthenticated()">
-            <h5 class="pt-2 ps-3 fw-bolder" sec:authentication="principal.nickname">
-                사용자 명
-            </h5>
-            <div class="row justify-content-start pe-2">
-                <div class="py-2">
-                    <button class="w-100 btn btn-outline-primary" th:href="@{/members/info}">내 정보</button>
+    <div class="row">
+        <div class="ps-2 pe-1 col-1 myForm">
+            <div sec:authorize="isAuthenticated()">
+                <h5 class="pt-2 ps-3 fw-bolder" sec:authentication="principal.nickname">
+                    사용자 명
+                </h5>
+                <div class="row justify-content-start pe-2">
+                    <div class="py-2">
+                        <a class="w-100 btn btn-outline-primary" th:href="@{/members/info}">내 정보</a>
+                    </div>
+                    <div class="pt-2 pb-3">
+                        <a class="w-100 btn btn-outline-secondary" th:href="@{/members/logout}">로그아웃</a>
+                    </div>
                 </div>
-                <div class="pt-2 pb-3">
-                    <button class="w-100 btn btn-outline-secondary" th:href="@{/members/logout}">로그아웃</button>
+            </div>
+            <div sec:authorize="isAnonymous()">
+                <h5 class="pt-2 ps-2 fw-bolder">GUEST</h5>
+                <div class="row justify-content-start pe-2">
+                    <div class="py-2">
+                        <a class="w-100 btn btn-outline-primary" th:href="@{/members/login}">로그인</a>
+                    </div>
+                    <div class="pt-2 pb-3">
+                        <a class="w-100 btn btn-outline-secondary" th:href="@{/members/add}">회원가입</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div sec:authorize="isAnonymous()">
-            <h5 class="pt-2 ps-3 fw-bolder">환영합니다!</h5>
-            <div class="row justify-content-start pe-2">
-                <div class="py-2">
-                    <button class="w-100 btn btn-outline-primary" th:href="@{/members/login}">로그인</button>
-                </div>
-                <div class="pt-2 pb-3">
-                    <button class="w-100 btn btn-outline-secondary" th:href="@{/members/add}">회원가입</button>
-                </div>
+        <div class="ps-5 col-11">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일자</th>
+                    <th>좋아요</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${boards}">
+                    <td th:text="${board.id}"></td>
+                    <td th:text="${board.title}"></td>
+                    <td th:text="${board.member?.nickname}"></td>
+                    <td th:text="${board.writeDate}"></td>
+                    <td th:text="${board.likes}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="col offset-11">
+                <a class="writeForm" th:href="@{/boards/write}">글쓰기</a>
             </div>
         </div>
     </div>

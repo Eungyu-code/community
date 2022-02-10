@@ -1,4 +1,4 @@
-package mine.community.controller;
+package mine.community.form;
 
 import lombok.Getter;
 import lombok.Setter;

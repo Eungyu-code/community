@@ -2,7 +2,7 @@ package mine.community.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mine.community.controller.CustomUser;
+import mine.community.form.CustomUser;
 import mine.community.domain.Member;
 import mine.community.repository.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;

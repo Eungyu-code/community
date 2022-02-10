@@ -3,10 +3,11 @@ package mine.community.domain;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class Post {
+public class Board {
 
     @Id
     @GeneratedValue
@@ -14,20 +15,23 @@ public class Post {
     private Long id;
 
     private String title;
-    private String text;
+    private String boardText;
     private Long likes = 0L;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public void save(String title, String text) {
+    private LocalDateTime writeDate;
+
+    public void save(String title, String boardText) {
         this.title = title;
-        this.text = text;
+        this.boardText = boardText;
+        this.writeDate = LocalDateTime.now();
     }
 
     public void change(String text) {
-        this.text = text;
+        this.boardText = boardText;
     }
 
     public void like_post() {

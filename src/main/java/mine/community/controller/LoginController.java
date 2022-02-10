@@ -2,6 +2,7 @@ package mine.community.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mine.community.form.LoginForm;
 import mine.community.service.LoginService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

@@ -15,7 +15,7 @@
     <form role="form" th:action th:object="${memberForm}" method="post">
         <div class="form-group py-3">
             <label for="nickname">닉네임 <span>*</span></label>
-            <input type="text" id="nickname" th:field="*{nickname}" class="form-control" placeholder="사용할 닉네임을 입력하세요."
+            <input type="text" id="nickname" th:field="*{nickname}" class="form-control" placeholder="nickname" required
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{nickname}">
                 닉네임 오류
@@ -24,7 +24,7 @@
 
         <div class="form-group py-3">
             <label for="mail">e-mail <span>*</span></label>
-            <input type="text" id="mail" th:field="*{mail}" class="form-control" placeholder="사용할 e-mail을 입력하세요."
+            <input type="email" id="mail" th:field="*{mail}" class="form-control" placeholder="name@example.com" required
                    th:errorclass="field-error">
             <div class="field-error" th:errors="*{mail}">
                 메일 오류
@@ -33,7 +33,7 @@
 
         <div class="form-group py-3">
             <label for="password">비밀번호 <span>*</span></label>
-            <input type="text" id="password" th:field="*{password}" class="form-control" placeholder="사용할 비밀번호를 입력하세요."
+            <input type="text" id="password" th:field="*{password}" class="form-control" placeholder="*******" required
                    th:errorlass="field-error">
             <div class="field-error" th:errors="*{password}">
                 비밀번호 오류
