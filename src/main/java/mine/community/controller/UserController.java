@@ -2,8 +2,6 @@ package mine.community.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mine.community.domain.Member;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -14,7 +12,8 @@ public class UserController {
 
 
     @GetMapping("/members/info")
-    public String info(@AuthenticationPrincipal Member member) {
+    public String info() {
+
 
         return "members/memberInfo";
     }

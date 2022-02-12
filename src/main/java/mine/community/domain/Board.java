@@ -11,7 +11,7 @@ public class Board {
 
     @Id
     @GeneratedValue
-    @Column(name = "post_id")
+    @Column(name = "board_id")
     private Long id;
 
     private String title;
@@ -24,7 +24,8 @@ public class Board {
 
     private LocalDateTime writeDate;
 
-    public void save(String title, String boardText) {
+    public void save(Member member, String title, String boardText) {
+        this.member = member;
         this.title = title;
         this.boardText = boardText;
         this.writeDate = LocalDateTime.now();

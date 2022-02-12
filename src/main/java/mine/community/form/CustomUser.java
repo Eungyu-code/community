@@ -1,6 +1,7 @@
 package mine.community.form;
 
 import mine.community.domain.Address;
+import mine.community.domain.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class CustomUser implements UserDetails {
+
+    private Member member;
 
     private String nickname;
     private String password;
@@ -28,7 +31,9 @@ public class CustomUser implements UserDetails {
 
     }
 
-    public CustomUser(String nickname, String mail, String password, Collection<? extends GrantedAuthority> authorities, Address address) {
+    public CustomUser(Member member, String nickname, String mail, String password, Collection<? extends GrantedAuthority> authorities, Address address) {
+
+        this.member = member;
 
         this.nickname = nickname;
         this.mail = mail;
@@ -64,6 +69,8 @@ public class CustomUser implements UserDetails {
     public String getZipcode() {
         return zipcode;
     }
+
+    public Member getMember() { return member; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

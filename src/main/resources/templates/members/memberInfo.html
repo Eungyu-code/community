@@ -16,13 +16,13 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
     <div>
-        <div class="row justify-content-center align-item-center">
-            <h1 class="tex-center justify-content-center align-item-center text-primary fw-bolder">내 정보</h1>
+        <div class="row justify-content-center align-item-center pt-3">
+            <h1 class="text-center justify-content-center align-item-center text-primary fw-bolder">내 정보</h1>
             <div class="infoForm col-md-6">
                 <div class="row justify-content-center align-item-center">
                     <div class="col-md-12">
-                        <div class="py-5">닉네임 : <span sec:authentication="principal.nickname"></span> </div>
-                        <div class="py-2">이메일 : <span sec:authentication="principal.mail"></span> </div>
+                        <div class="pt-4 py-1">닉네임 : <span sec:authentication="principal.nickname"></span> </div>
+                        <div class="py-1">이메일 : <span sec:authentication="principal.mail"></span> </div>
                         <div class="py-2">
                             <span>주소</span>
                             <div class="py-1">국가 : <span sec:authentication="principal.country"></span> </div>

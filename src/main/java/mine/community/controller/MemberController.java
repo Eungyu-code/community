@@ -35,7 +35,7 @@ public class MemberController {
 
     @PostMapping("/add")
     public String joinMember(@Validated @ModelAttribute("memberForm") MemberForm memberForm,
-                             BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+                             BindingResult bindingResult) {
 
 
         if (!StringUtils.hasText(memberForm.getNickname())) {

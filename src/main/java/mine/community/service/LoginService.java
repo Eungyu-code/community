@@ -35,7 +35,7 @@ public class LoginService implements UserDetailsService {
 
         auth.add(new SimpleGrantedAuthority(Role.MEMBER.getValue()));
 
-        return new CustomUser(member.getNickname(), member.getMail(), member.getPassword(), auth, member.getAddress());
+        return new CustomUser(member, member.getNickname(), member.getMail(), member.getPassword(), auth, member.getAddress());
 
     }
 }
