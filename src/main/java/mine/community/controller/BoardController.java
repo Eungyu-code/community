@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.security.Principal;
 
 @Controller
 @Slf4j
@@ -68,6 +67,7 @@ public class BoardController {
         Board board = boardService.findOneByTitle(boardTitle);
 
         BoardForm boardForm = new BoardForm();
+        boardForm.setId(board.getId());
         boardForm.setTitle(board.getTitle());
         boardForm.setBoardText(board.getBoardText());
         boardForm.setLikes(board.getLikes());
@@ -78,5 +78,26 @@ public class BoardController {
         return "boards/board";
     }
 
+    @GetMapping("/boards/board/{boardTitle}/edit")
+    public String editForm(@PathVariable("boardTitle") String boardTitle, Model model) {
 
+        Board board = boardService.findOneByTitle(boardTitle);
+        BoardForm boardForm = new BoardForm();
+        boardForm.setTitle(board.getTitle());
+        boardForm.setBoardText(board.getBoardText());
+        boardForm.setLikes(board.getLikes());
+        boardForm.setWriteDate(board.getWriteDate());
+
+        model.addAttribute("boardForm", boardForm);
+
+        return "boards/updateBoard";
+    }
+
+    @PostMapping("/boards/board/{boardTitle}/edit")
+    public String edit(@Validated @ModelAttribute BoardForm boardForm, BindingResult bindingResult) {
+
+
+
+        return "boards/board";
+    }
 }

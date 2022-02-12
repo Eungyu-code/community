@@ -22,7 +22,7 @@
 
     <div class="row justify-content-center my-5 py-5">
       <div class="col-3">
-       <a th:href="@{/boards/{title}/edit (title=${boardForm.title})}">수정</a>
+       <a th:href="@{/boards/board/{title}/edit (title=${boardForm.title})}" class="w-100 btn btn-primary btn-lg">수정</a>
       </div>
       <div class="col-3">
         <a th:href="@{/}" class="w-100 btn btn-secondary btn-lg">목록</a>
