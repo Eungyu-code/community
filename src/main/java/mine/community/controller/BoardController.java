@@ -49,25 +49,26 @@ public class BoardController {
             return "boards/writeForm";
         }
 
-        log.info("user.getMember() = {}", user.getMember());
+        log.info("@PostMapping write, user.getMember() = {}", user.getMember());
 
         Board board = new Board();
         board.save(user.getMember(), boardForm.getTitle(), boardForm.getBoardText());
         boardService.save(board);
 
-        log.info("board.getMember() = {}", board.getMember());
+        log.info("@PostMapping write, board.getMember() = {}", board.getMember());
 
 
-        return "redirect:/boards/board/" + board.getTitle();
+        return "redirect:/boards/memberBoard/" + board.getTitle();
     }
 
-    @GetMapping("/boards/board/{boardTitle}")
-    public String board(@PathVariable("boardTitle") String boardTitle, Model model) {
+    @GetMapping("/boards/memberBoard/{boardTitle}")
+    public String board(@PathVariable("boardTitle") String boardTitle, Model model, @AuthenticationPrincipal CustomUser user) {
 
         Board board = boardService.findOneByTitle(boardTitle);
 
         BoardForm boardForm = new BoardForm();
         boardForm.setId(board.getId());
+        boardForm.setMember(board.getMember());
         boardForm.setTitle(board.getTitle());
         boardForm.setBoardText(board.getBoardText());
         boardForm.setLikes(board.getLikes());
@@ -75,7 +76,15 @@ public class BoardController {
 
         model.addAttribute("boardForm", boardForm);
 
-        return "boards/board";
+        Member boardMember = board.getMember();
+        Member userMember = user.getMember();
+
+        if (boardMember.getId().equals(userMember.getId())) {
+
+            return "boards/writerBoard";
+        }
+
+        return "boards/memberBoard";
     }
 
     @GetMapping("/boards/board/{boardTitle}/edit")
@@ -96,8 +105,20 @@ public class BoardController {
     @PostMapping("/boards/board/{boardTitle}/edit")
     public String edit(@Validated @ModelAttribute BoardForm boardForm, BindingResult bindingResult) {
 
+        if (!StringUtils.hasText(boardForm.getTitle())) {
+            bindingResult.rejectValue("title", "required", null, null);
+        }
+
+        if (!StringUtils.hasText(boardForm.getBoardText())) {
+            bindingResult.rejectValue("boardText", "required", null, null);
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "boards/updateBoard";
+        }
 
 
-        return "boards/board";
+
+        return "boards/memberBoard";
     }
 }

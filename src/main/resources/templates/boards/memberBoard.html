@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<style>
+  .textForm {
+    height: 400px;
+  }
+</style>
+<body>
+
+<div class="container">
+      <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+      <div th:object="${boardForm}">
+          <div class="py-3">
+              <h3 th:text="*{title}"></h3>
+              <div th:text="*{member?.nickname}"></div>
+              <div th:text="${#temporals.format(boardForm.writeDate, 'yy-MM-dd')}"></div>
+          </div>
+
+          <hr>
+
+          <div class="pt-3">
+              <div class="form-control textForm" th:text="*{boardText}"></div>
+          </div>
+
+          <div class="row justify-content-start py-3">
+              <div class="col-1">
+                  <button class="w-100 btn btn-danger">좋아요</button>
+              </div>
+              <div class="col-1">
+                  <a th:href="@{/}" class="w-100 btn btn-secondary">목록</a>
+              </div>
+          </div>
+      </div>
+
+      <table class="table table-striped">
+          <thead>
+          <tr>
+              <th>작성자</th>
+              <th>내용</th>
+              <th>작성일자</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+
+          </tr>
+          </tbody>
+      </table>
+</div>
+</body>
+</html>

@@ -28,12 +28,12 @@
             <div class="field-error" th:errors="*{boardText}">내용 없음</div>
         </div>
 
-        <div class="row justify-content-center my-5 py-5">
-            <div class="col-3">
+        <div class="row justify-content-start py-3">
+            <div class="col-1">
                 <button type="submit" class="w-100 btn btn-primary btn-lg">수정</button>
             </div>
-            <div class="col-3">
-                <a th:href="@{/boards/board/{title} (title=${boardForm.title})}" class="w-100 btn btn-secondary btn-lg">취소</a>
+            <div class="col-1">
+                <a th:href="@{/boards/board/{title} (title=${boardForm.title})}">취소</a>
             </div>
         </div>
     </form>
