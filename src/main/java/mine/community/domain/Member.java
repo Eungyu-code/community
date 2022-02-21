@@ -23,12 +23,9 @@ public class Member {
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "member")
-    private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Board> boardList = new ArrayList<>();
-
 
     public void create(String mail, String nickname, String password, Address address) {
 
@@ -43,6 +40,10 @@ public class Member {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         return passwordEncoder.encode(password);
+    }
+
+    public void liked() {
+
     }
 
 }

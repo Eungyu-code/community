@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class CommentForm {
+public class ReplyForm {
 
     private Long id;
     private String nickname;

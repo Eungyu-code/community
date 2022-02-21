@@ -62,9 +62,9 @@
                 <tr th:each="board : ${boards}">
                     <td th:text="${board.id}"></td>
                     <td th:text="${board.member?.nickname}"></td>
-                    <td><a class="boardForm" th:href="@{/boards/memberBoard/{title} (title=${board.title})}" th:text="${board.title}"></a></td>
+                    <td><a class="boardForm" th:href="@{/boards/board/{title} (title=${board.title})}" th:text="${board.title}"></a></td>
                     <td th:text="${#temporals.format(board.writeDate, 'yy-MM-dd')}"></td>
-                    <td th:text="${board.likes}"></td>
+                    <td th:text="${board.likes?.likes}"></td>
                 </tr>
                 </tbody>
             </table>

@@ -14,12 +14,15 @@
 
     <form role="form" th:action th:object="${boardForm}" method="post">
 
-        <div class="form-group py-3">
-            <label class="text-white" for="title" th:text="*{title}">제목</label>
-            <input type="text" class="form-control" id="title"  th:field="*{title}"
-                   th:errorclass="field-error">
-            <div class="field-error" th:errors="*{title}">제목 없음</div>
+        <div class="py-3">
+            <h3 th:text="*{title}"></h3>
+            <div th:text="*{member?.nickname}"></div>
+            <div th:text="${#temporals.format(boardForm.writeDate, 'yy-MM-dd')}"></div>
         </div>
+
+        <hr>
+        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{title}"/>
 
         <div class="form-group pt-3">
             <label class="text-white" for="boardText" th:text="*{boardText}">내용</label>
@@ -33,7 +36,7 @@
                 <button type="submit" class="w-100 btn btn-primary btn-lg">수정</button>
             </div>
             <div class="col-1">
-                <a th:href="@{/boards/board/{title} (title=${boardForm.title})}">취소</a>
+                <a th:href="@{/boards/board/{title} (title=${boardForm.title})}" class="w-100 btn btn-secondary btn-lg">취소</a>
             </div>
         </div>
     </form>
