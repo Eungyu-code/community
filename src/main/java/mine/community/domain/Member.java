@@ -23,9 +23,11 @@ public class Member {
     @Embedded
     private Address address;
 
-
     @OneToMany(mappedBy = "member")
     private List<Board> boardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Reply> replyList = new ArrayList<>();
 
     public void create(String mail, String nickname, String password, Address address) {
 

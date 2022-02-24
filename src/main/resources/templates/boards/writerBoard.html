@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/header :: header"/>
 <style>
     .textForm {
@@ -13,14 +14,14 @@
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
     <div th:object="${boardForm}">
-        <div class="py-3">
+        <div class="pt-3">
             <h3 th:text="*{title}"></h3>
 
         </div>
 
         <hr>
         <div th:text="*{member?.nickname}"></div>
-        <div th:text="${#temporals.format(boardForm.writeDate, 'yy-MM-dd')}"></div>
+        <div th:text="${#temporals.format(boardForm.writeDate, 'yy-MM-dd HH:mm')}"></div>
 
         <div class="pt-3">
             <div class="form-control textForm" th:text="*{boardText}"></div>
@@ -53,17 +54,33 @@
     <table class="pt-2 table table-striped">
         <thead>
         <tr>
-            <th>작성자</th>
-            <th>내용</th>
-            <th>작성일자</th>
+            <th style="width: 25%">작성자</th>
+            <th style="width: 50%">내용</th>
+            <th style="width: 25%">작성일자</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-
+        <tr th:each="reply : ${replyBoardForm.replyList}">
+            <td th:text="${reply.member?.nickname}"></td>
+            <td th:text="${reply.replyText}"></td>
+            <td th:text="${#temporals.format(reply.writeTime, 'yy-MM-dd HH:mm')}"></td>
         </tr>
         </tbody>
     </table>
+
+    <form role="form" th:action th:object="${replyForm}" method="post">
+        <div class="row">
+            <div class="col-3" sec:authentication="principal.nickname"></div>
+            <div class="col-5">
+                <input type="text" th:field="*{replyText}" class="form-control" th:errorclass="field-error" placeholder="댓글">
+                <div class="field-error" th:errors="*{replyText}">댓글 내용없음</div>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-1">
+                <button type="submit" class="w-100 btn-outline-dark btn">작성</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

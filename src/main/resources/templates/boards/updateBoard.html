@@ -14,11 +14,14 @@
 
     <form role="form" th:action th:object="${boardForm}" method="post">
 
-        <div class="py-3">
+        <div class="pt-3">
             <h3 th:text="*{title}"></h3>
-            <div th:text="*{member?.nickname}"></div>
-            <div th:text="${#temporals.format(boardForm.writeDate, 'yy-MM-dd')}"></div>
+
         </div>
+
+        <hr>
+        <div th:text="*{member?.nickname}"></div>
+        <div th:text="${#temporals.format(boardForm.writeDate, 'yy-MM-dd')}"></div>
 
         <hr>
         <input type="hidden" th:field="*{id}"/>

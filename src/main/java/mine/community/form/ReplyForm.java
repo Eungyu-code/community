@@ -2,6 +2,8 @@ package mine.community.form;
 
 import lombok.Getter;
 import lombok.Setter;
+import mine.community.domain.Board;
+import mine.community.domain.Member;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +12,8 @@ import java.time.LocalDateTime;
 public class ReplyForm {
 
     private Long id;
-    private String nickname;
-    private String commentText;
+    private Member member;
+    private Board board;
+    private String replyText;
     private LocalDateTime writeTime;
 }

@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mine.community.domain.Board;
 import mine.community.domain.Member;
+import mine.community.domain.Reply;
 import mine.community.form.BoardForm;
 import mine.community.form.CustomUser;
+import mine.community.form.ReplyForm;
 import mine.community.service.BoardService;
+import mine.community.service.ReplyService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +31,7 @@ import java.net.URLEncoder;
 public class BoardController {
 
     private final BoardService boardService;
+    private final ReplyService replyService;
 
     @GetMapping("/boards/write")
     public String writeForm(Model model) {
@@ -79,7 +83,12 @@ public class BoardController {
         boardForm.setBoardText(board.getBoardText());
         boardForm.setWriteDate(board.getWriteDate());
 
+        BoardForm replyBoardForm = new BoardForm();
+        addReplyForm(replyBoardForm, board);
+
         model.addAttribute("boardForm", boardForm);
+        model.addAttribute("replyForm", new ReplyForm());
+        model.addAttribute("replyBoardForm", replyBoardForm);
 
         Member boardMember = board.getMember();
         Member userMember = user.getMember();
@@ -140,13 +149,11 @@ public class BoardController {
         return "redirect:/boards/board/" + encodedParam;
     }
 
-    @PostMapping("/boards/board/{boardTitle}")
-    public String liked(@ModelAttribute BoardForm boardForm, @AuthenticationPrincipal CustomUser user) {
+    private void addReplyForm(BoardForm boardForm, Board board) {
 
-        Board board = boardService.findOneById(boardForm.getId());
+        for (Reply reply : replyService.findByBoard(board)) {
 
-        board.liked();
-
-        return "redirect:/boards/board/" + board.getTitle();
+            boardForm.setReplyList(reply);
+        }
     }
 }
