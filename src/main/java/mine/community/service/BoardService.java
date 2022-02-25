@@ -6,6 +6,8 @@ import mine.community.domain.Board;
 import mine.community.domain.Member;
 import mine.community.repository.BoardRepository;
 import mine.community.repository.LikesRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +25,6 @@ public class BoardService {
     public void save(Board board) {
 
         boardRepository.save(board);
-        likesRepository.save(board.getLikes());
     }
 
     public Board findOneByTitle(String title) {
@@ -44,6 +45,11 @@ public class BoardService {
     public List<Board> findAll() {
 
         return boardRepository.findAll();
+    }
+
+    public Page<Board> findAllPage(Pageable pageable) {
+
+        return boardRepository.findAll(pageable);
     }
 
     public void liked(Member member, Board board) {

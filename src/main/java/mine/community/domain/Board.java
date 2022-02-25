@@ -12,7 +12,7 @@ import java.util.List;
 public class Board {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "board_id")
     private Long id;
 
@@ -25,21 +25,19 @@ public class Board {
 
     private LocalDateTime writeDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "likes_id")
-    private Likes likes;
 
     private LikeStatus likeStatus;
 
     @OneToMany(mappedBy = "board")
     private List<Reply> replyList = new ArrayList<>();
 
+    private Long replyNumber = 0L;
+
     public void save(Member member, String title, String boardText) {
         this.member = member;
         this.title = title;
         this.boardText = boardText;
         this.writeDate = LocalDateTime.now();
-        this.likes = new Likes();
     }
 
     public void change(String title, String boardText) {
@@ -47,7 +45,8 @@ public class Board {
         this.boardText = boardText;
     }
 
-    public void liked() {
-        likes.like_post();
+    public void addReply() {
+        replyNumber++;
     }
+
 }

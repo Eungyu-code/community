@@ -12,8 +12,6 @@ public class Likes {
 
     private Long likes = 0L;
 
-    @OneToOne(mappedBy = "likes")
-    private Board board;
 
     public void like_post() {
         likes++;

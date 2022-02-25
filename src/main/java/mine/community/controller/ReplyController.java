@@ -73,6 +73,8 @@ public class ReplyController {
         for (Reply reply : replyService.findByBoard(board)) {
 
             boardForm.setReplyList(reply);
+            board.addReply();
         }
+        boardForm.setReplyNumber(board.getReplyNumber());
     }
 }

@@ -16,6 +16,7 @@ public class BoardForm {
     private Long id;
     private Member member;
     private List<Reply> replyList = new ArrayList<>();
+    private Long replyNumber = 0L;
     private String title;
     private String boardText;
     private Long likes;

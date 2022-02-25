@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -79,7 +81,6 @@ public class BoardController {
         boardForm.setId(board.getId());
         boardForm.setMember(board.getMember());
         boardForm.setTitle(board.getTitle());
-        boardForm.setLikes(board.getLikes().getLikes());
         boardForm.setBoardText(board.getBoardText());
         boardForm.setWriteDate(board.getWriteDate());
 
@@ -111,7 +112,6 @@ public class BoardController {
         BoardForm boardForm = new BoardForm();
         boardForm.setId(board.getId());
         boardForm.setTitle(board.getTitle());
-        boardForm.setLikes(board.getLikes().getLikes());
         boardForm.setMember(board.getMember());
         boardForm.setBoardText(board.getBoardText());
         boardForm.setWriteDate(board.getWriteDate());
@@ -147,6 +147,30 @@ public class BoardController {
         String encodedParam = URLEncoder.encode(board.getTitle(), "UTF-8");
 
         return "redirect:/boards/board/" + encodedParam;
+    }
+
+    @GetMapping("/boards")
+    public String boardList(Model model) {
+
+        List<Board> boards = boardService.findAll();
+
+        List<BoardForm> boardFormList = new ArrayList<>();
+
+        for (Board board : boards) {
+
+            BoardForm boardForm = new BoardForm();
+            boardForm.setId(board.getId());
+            boardForm.setTitle(board.getTitle());
+            boardForm.setMember(board.getMember());
+            boardForm.setBoardText(board.getBoardText());
+            boardForm.setWriteDate(board.getWriteDate());
+
+            boardFormList.add(boardForm);
+        }
+
+        model.addAttribute("boardFormList", boardFormList);
+
+        return "boards/boardList";
     }
 
     private void addReplyForm(BoardForm boardForm, Board board) {

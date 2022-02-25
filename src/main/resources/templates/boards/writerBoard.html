@@ -32,7 +32,7 @@
                 <a class="w-100 btn btn-primary" th:href="@{/boards/board/{title}/edit (title=${boardForm.title})}">수정</a>
             </div>
             <div class="col-1">
-                <a th:href="@{/}" class="w-100 btn btn-secondary">목록</a>
+                <a th:href="@{/boards}" class="w-100 btn btn-secondary">목록</a>
             </div>
         </div>
 
@@ -49,6 +49,10 @@
             </div>
         </div>
         <hr>
+    </div>
+
+    <div class="pt-2">
+        댓글(<span th:text="${replyBoardForm.replyNumber}"></span>)
     </div>
 
     <table class="pt-2 table table-striped">
