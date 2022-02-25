@@ -60,7 +60,7 @@
                 <tbody>
                 <tr th:each="board : ${boardFormList}">
                     <td th:text="${board.member?.nickname}"></td>
-                    <td><a class="boardForm" th:href="@{/boards/board/{title} (title=${board.title})}" th:text="${board.title}"></a></td>
+                    <td><a class="boardForm" th:href="@{/boards/board/{id} (id=${board.id})}" th:text="${board.title}"></a></td>
                     <td th:text="${#temporals.format(board.writeDate, 'yy-MM-dd')}"></td>
                     <td th:text="${board.replyNumber}"></td>
                     <td>0</td>

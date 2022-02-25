@@ -1,12 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/header :: header"/>
+<style>
+    .boardForm {
+        text-decoration: none;
+        color: black;
+    }
+    .writeForm {
+        text-decoration: none;
+        color: grey;
+    }
+</style>
 <body>
 
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-    boardList
+    <div class="row px-3">
+        <div class="col-2">
+            <span sec:authentication="principal.nickname" class="fw-bolder"></span>
+            <a class="btn btn-sm btn-outline-primary" th:href="@{/members/info}">내 정보</a>
+            <a class="btn btn-sm btn-outline-secondary" th:href="@{/members/logout}">로그아웃</a>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 20%">작성자</th>
+                    <th style="width: 40%">제목</th>
+                    <th style="width: 20%">작성일자</th>
+                    <th style="width: 10%">댓글</th>
+                    <th style="width: 10%">좋아요</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="board : ${boardFormList}">
+                    <td th:text="${board.member?.nickname}"></td>
+                    <td><a class="boardForm" th:href="@{/boards/board/{id} (id=${board.id})}" th:text="${board.title}"></a></td>
+                    <td th:text="${#temporals.format(board.writeDate, 'yy-MM-dd HH:mm')}"></td>
+                    <td th:text="${board.replyNumber}"></td>
+                    <td>0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div class="col offset-11 py-4">
+                <a class="writeForm" th:href="@{/boards/write}">글쓰기</a>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

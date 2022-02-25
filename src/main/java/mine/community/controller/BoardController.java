@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +41,7 @@ public class BoardController {
     }
 
     @PostMapping("/boards/write")
-    public String write(@Validated @ModelAttribute BoardForm boardForm, BindingResult bindingResult, @AuthenticationPrincipal CustomUser user) throws UnsupportedEncodingException {
+    public String write(@Validated @ModelAttribute BoardForm boardForm, BindingResult bindingResult, @AuthenticationPrincipal CustomUser user) {
 
         if (!StringUtils.hasText(boardForm.getTitle())) {
             bindingResult.rejectValue("title", "required", null, null);
@@ -66,16 +64,16 @@ public class BoardController {
 
         log.info("@PostMapping write, board.getMember() = {}", board.getMember());
 
-        String encodedParam = URLEncoder.encode(board.getTitle(), "UTF-8");
 
-
-        return "redirect:/boards/board/" + encodedParam;
+        return "redirect:/boards/board/" + board.getId();
     }
 
-    @GetMapping("/boards/board/{boardTitle}")
-    public String board(@PathVariable("boardTitle") String boardTitle, Model model, @AuthenticationPrincipal CustomUser user) {
+    @GetMapping("/boards/board/{boardId}")
+    public String board(@PathVariable("boardId") Long boardId, Model model, @AuthenticationPrincipal CustomUser user) {
 
-        Board board = boardService.findOneByTitle(boardTitle);
+        Board board = boardService.findOneById(boardId);
+
+        log.info("board.getReplyNumber = {}", board.getReplyNumber());
 
         BoardForm boardForm = new BoardForm();
         boardForm.setId(board.getId());
@@ -104,11 +102,10 @@ public class BoardController {
         return "boards/memberBoard";
     }
 
-    @GetMapping("/boards/board/{boardTitle}/edit")
-    public String editForm(@PathVariable("boardTitle") String boardTitle, Model model, @AuthenticationPrincipal CustomUser user) {
+    @GetMapping("/boards/board/{boardId}/edit")
+    public String editForm(@PathVariable("boardId") Long boardId, Model model, @AuthenticationPrincipal CustomUser user) {
 
-
-        Board board = boardService.findOneByTitle(boardTitle);
+        Board board = boardService.findOneById(boardId);
         BoardForm boardForm = new BoardForm();
         boardForm.setId(board.getId());
         boardForm.setTitle(board.getTitle());
@@ -120,7 +117,7 @@ public class BoardController {
         Member userMember = user.getMember();
 
         if (!boardMember.getId().equals(userMember.getId())) {
-            return "redirect:/boards/board/" + boardTitle;
+            return "redirect:/boards/board/" + boardId;
         }
 
         model.addAttribute("boardForm", boardForm);
@@ -128,8 +125,8 @@ public class BoardController {
         return "boards/updateBoard";
     }
 
-    @PostMapping("/boards/board/{boardTitle}/edit")
-    public String edit(@Validated @ModelAttribute BoardForm boardForm, BindingResult bindingResult) throws UnsupportedEncodingException {
+    @PostMapping("/boards/board/{boardId}/edit")
+    public String edit(@Validated @ModelAttribute BoardForm boardForm, BindingResult bindingResult) {
 
         if (!StringUtils.hasText(boardForm.getBoardText())) {
             bindingResult.rejectValue("boardText", "required", null, null);
@@ -144,9 +141,8 @@ public class BoardController {
         board.change(boardForm.getTitle(), boardForm.getBoardText());
         boardService.save(board);
 
-        String encodedParam = URLEncoder.encode(board.getTitle(), "UTF-8");
 
-        return "redirect:/boards/board/" + encodedParam;
+        return "redirect:/boards/board/" + board.getId();
     }
 
     @GetMapping("/boards")
@@ -179,5 +175,6 @@ public class BoardController {
 
             boardForm.setReplyList(reply);
         }
+        boardForm.setReplyNumber(board.getReplyNumber());
     }
 }

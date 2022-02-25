@@ -27,9 +27,9 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public Board findOneByTitle(String title) {
+    public List<Board> findByTitle(String title) {
 
-        return boardRepository.findByTitle(title).orElse(null);
+        return boardRepository.findByTitle(title);
     }
 
     public Board findOneById(Long id) {

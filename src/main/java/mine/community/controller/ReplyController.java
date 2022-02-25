@@ -21,25 +21,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class ReplyController {
 
     private final BoardService boardService;
-    private final MemberService memberService;
     private final ReplyService replyService;
 
-    @PostMapping("/boards/board/{boardTitle}")
-    public String reply(@PathVariable("boardTitle") String boardTitle, @Validated @ModelAttribute ReplyForm replyForm, BindingResult bindingResult, Model model,
-                        @AuthenticationPrincipal CustomUser user) throws UnsupportedEncodingException {
+    @PostMapping("/boards/board/{boardId}")
+    public String reply(@PathVariable("boardId") Long boardId, @Validated @ModelAttribute ReplyForm replyForm, BindingResult bindingResult, Model model,
+                        @AuthenticationPrincipal CustomUser user) {
 
-        String encodedParam = URLEncoder.encode(boardTitle, "UTF-8");
 
-        Member boardMember = boardService.findOneByTitle(boardTitle).getMember();
+        Member boardMember = boardService.findOneById(boardId).getMember();
         Member userMember = user.getMember();
 
         if (!StringUtils.hasText(replyForm.getReplyText())) {
@@ -57,15 +52,17 @@ public class ReplyController {
             }
         }
 
+        boardService.findOneById(boardId).addReply();
+
         Reply reply = new Reply();
-        reply.addReply(replyForm.getReplyText(), userMember, boardService.findOneByTitle(boardTitle));
+        reply.addReply(replyForm.getReplyText(), userMember, boardService.findOneById(boardId));
         replyService.save(reply);
 
         BoardForm replyBoardForm = new BoardForm();
-        addReplyForm(replyBoardForm, boardService.findOneByTitle(boardTitle));
+        addReplyForm(replyBoardForm, boardService.findOneById(boardId));
         model.addAttribute("replyBoardForm", replyBoardForm);
 
-        return "redirect:/boards/board/" + encodedParam;
+        return "redirect:/boards/board/" + boardId;
     }
 
     private void addReplyForm(BoardForm boardForm, Board board) {
