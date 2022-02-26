@@ -34,4 +34,14 @@ public class MemberService {
         return memberRepository.findByNickname(nickname).orElse(null);
     }
 
+    public Member findById(Long id) {
+
+        return memberRepository.findById(id).orElse(null);
+    }
+
+    public Member findByNickname(String nickname) {
+
+        return memberRepository.findByNickname(nickname).orElse(null);
+    }
+
 }

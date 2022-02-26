@@ -52,8 +52,18 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
+    public Page<Board> findBoardByMember(Member member, Pageable pageable) {
+
+        return boardRepository.findBoardByMember(member, pageable);
+    }
+
     public void liked(Member member, Board board) {
 
 
+    }
+
+    public void delete(Long boardId) {
+
+        boardRepository.deleteById(boardId);
     }
 }

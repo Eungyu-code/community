@@ -17,8 +17,13 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByMember(Member member);
 
+    Page<Board> findBoardByMember(Member member, Pageable pageable);
+
     @Override
     Page<Board> findAll(Pageable pageable);
+
+    @Override
+    void deleteById(Long id);
 
     @Override
     List<Board> findAll();

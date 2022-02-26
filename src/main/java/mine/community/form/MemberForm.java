@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class MemberForm {
 
+    private Long id;
+
     private String nickname;
 
     private String password;

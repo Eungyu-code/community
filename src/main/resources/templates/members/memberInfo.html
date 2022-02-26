@@ -29,7 +29,7 @@
                             <div class="py-1">도시 : <span sec:authentication="principal.city"></span> </div>
                             <div class="py-1">도로명 : <span sec:authentication="principal.street"></span> </div>
                             <div class="py-1">우편번호 : <span sec:authentication="principal.zipcode"></span> </div>
-                            <div class="py-2"><a class="btn btn-md btn-outline-primary" th:href="@{/members/boards/{id} (id=principal.id)}">내가 쓴 글</a></div>
+                            <div class="py-2"><a class="btn btn-md btn-outline-primary" th:href="@{/members/boards/{nickname} (nickname=${memberForm.nickname})}">내가 쓴 글</a></div>
                         </div>
                     </div>
                 </div>
